@@ -5,7 +5,7 @@ try:
 except ImportError:
     from distutils.core import setup
 import six
-from subfinder import __version__, __author__
+from subsfinder import __version__, __author__
 version = __version__
 author = __author__
 
@@ -36,7 +36,7 @@ def readme():
 
 
 setup(
-    name='SubFinder',
+    name='SubsFinder',
     version=version,
     author=author,
     author_email='ljm51689@gmail.com',

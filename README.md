@@ -1,6 +1,6 @@
 # subsfinder 字幕查找器
 
-subfinder 是一个通用字幕查找器，可以查找字幕并下载。
+subsfinder 是一个通用字幕查找器，可以查找字幕并下载。
 
 ---
 
