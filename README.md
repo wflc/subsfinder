@@ -1,4 +1,4 @@
-# subfinder 字幕查找器
+# subsfinder 字幕查找器
 
 subfinder 是一个通用字幕查找器，可以查找字幕并下载。
 
