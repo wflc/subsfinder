@@ -39,21 +39,21 @@ setup(
     name='SubsFinder',
     version=version,
     author=author,
-    author_email='ljm51689@gmail.com',
-    description='subfinder -- a general finder for subtitles',
+    author_email='wflc@163.com',
+    description='subsfinder -- a general finder for subtitles',
     long_description=readme(),
     long_description_content_type='text/markdown',
-    url='https://github.com/ausaki/subfinder/',
-    keywords=['subtitle', 'subfinder', 'sub', 'subtitle finder', 'shooter', 'zimuku'],
+    url='https://github.com/wflc/subfinder/',
+    keywords=['subtitle', 'subsfinder', 'sub', 'subtitle finder', 'shooter', 'zimuku'],
     license='MIT',
-    packages=['subfinder', 'subfinder.subsearcher', 'subfinder.tools'],
+    packages=['subsfinder', 'subsfinder.subsearcher', 'subsfinder.tools'],
     include_package_data=True,
     python_requires='>=3',
     install_requires=requires,
     entry_points={
         'console_scripts': [
-                'subfinder = subfinder.run_gevent:run',
-                'subutils = subfinder.utils:main'
+                'subsfinder = subsfinder.run_gevent:run',
+                'subutils = subsfinder.utils:main'
         ]
     },
 )

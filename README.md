@@ -4,12 +4,6 @@ subsfinder 是一个通用字幕查找器，可以查找字幕并下载。
 
 ---
 
-[![PyPi](https://img.shields.io/pypi/v/subfinder.svg)](https://pypi.org/project/subfinder/)
-[![PyPi - Python Version](https://img.shields.io/pypi/pyversions/subfinder.svg)](https://pypi.org/project/subfinder/)
-[![PyPI - License](https://img.shields.io/pypi/l/subfinder.svg)](https://pypi.org/project/subfinder/)
-![GitHub last commit](https://img.shields.io/github/last-commit/ausaki/subfinder.svg)
-
----
 
 Table of Contents
 =================
@@ -30,6 +24,7 @@ Table of Contents
   - [参考](#参考)
   - [License](#license)
   - [更新历史](#更新历史)
+	- [v2.1.0](#v210)
     - [v2.0.1](#v201)
     - [v2.0.0](#v200)
     - [v1.1.4](#v114)
@@ -57,63 +52,60 @@ Table of Contents
 
 ## 安装
 
-如果你是 Linux 和 macOS 用户，由于系统自带 Python，推荐使用下面的方法安装 subfinder：
+如果你是 Linux 和 macOS 用户，由于系统自带 Python，推荐使用下面的方法安装 subsfinder：
 
-`pip install subfinder`
+`pip install subsfinder`
 
-安装完成之后，会在 Python 的 scripts 目录下添加一个叫做 subfinder 的可执行文件。
+安装完成之后，会在 Python 的 scripts 目录下添加一个叫做 subsfinder 的可执行文件。
 
 > 在 unix-like 系统中，scripts 目录一般是 `/usr/local/bin`，在 Windows 系统中，scripts 目录一般是 `C:\python\scripts\`。在 Windows 系统中需要将 `C:\python\scripts\` 加入到 `PATH` 中（一般安装 Python 时已经添加了）。
 
-接下来你就可以在命令行中使用 subfinder 命令了。
+接下来你就可以在命令行中使用 subsfinder 命令了。
 
-为了方便没有安装 Python 的用户，这里也有已经打包好的可执行文件。[戳这里下载](https://github.com/ausaki/subfinder/releases)。
 
 ## 更新
 
-如果 subfinder 是使用 pip 安装的，那么使用 pip 更新，
+如果 subsfinder 是使用 pip 安装的，那么使用 pip 更新，
 
-`pip install subfinder --upgrade`
-
-如果 subfinder 是下载的打包好的可执行文件，那么请重新下载最新的可执行文件并覆盖旧的文件。
+`pip install subsfinder --upgrade`
 
 ## 使用方法
 
 ### 命令行
 
-- 使用默认字幕查找器（shooter）查找单个视频的字幕：
+- 使用所有字幕查找器（shooter、zimuku、zimuzu、subhd）查找单个视频的字幕：
 
-  `subfinder /path/to/videofile`
+  `subsfinder /path/to/videofile`
 
-- 使用默认字幕查找器（shooter）查找目录下（递归所有子目录）所有视频的字幕：
+- 使用所有字幕查找器（shooter、zimuku、zimuzu、subhd）查找目录下（递归所有子目录）所有视频的字幕：
 
-  `subfinder /path/to/directory_contains_video`
+  `subsfinder /path/to/directory_contains_video`
 
 - 使用指定的字幕查找器查找字幕，例如 zimuku：
 
-  `subfinder /path/to/videofile -m zimuku`
+  `subsfinder /path/to/videofile -m zimuku`
 
 - 同时使用多个字幕查找器查找字幕
 
-  `subfinder /path/to/videofile -m shooter zimuku`
+  `subsfinder /path/to/videofile -m shooter zimuku`
 
-  当指定多个字幕查找器时，subfinder 会依次尝试每个字幕查找器去查找字幕，只要有一个字幕查找器返回字幕信息，则不再使用后面的字幕查找器查找字幕。
+  当指定多个字幕查找器时，subsfinder 会依次尝试每个字幕查找器去查找字幕。
 
-  ** 注意：** 如果指定了多个字幕查找器，请不要指定 `languages` 参数，否则可能会出现 `LanguageError` 错误（因为每个 `SubSearcher` 支持的语言可能不相同）。
+  ** 注意：** 如果指定了多个字幕查找器，请不要指定 `languages` 参数，否则可能会出现 `LanguageError` 错误（因为每个 `SubsSearcher` 支持的语言可能不相同）。
 
-常用参数说明（详细的参数信息请查看 `subfinder -h`）：
+常用参数说明（详细的参数信息请查看 `subsfinder -h`）：
 
 | 参数              | 含义                                                                                               | 必需                                               |
 | ----------------- | -------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
-| `-l, --languages` | 指定字幕语言，可同时指定多个。每个字幕查找器支持的语言不相同。具体支持的语言请看下文。             | 否，subfinder 默认会下载字幕查找器找到的所有字幕。 |
-| `-e, --exts`      | 指定字幕文件格式，可同时指定多个。每个字幕查找器支持的文件格式不相同。具体支持的文件格式请看下文。 | 否，subfinder 默认会下载字幕查找器找到的所有字幕。 |
-| `-m,--method`     | 指定字幕查找器，可同时指定多个。                                                                   | 否，subfinder 默认使用 shooter 查找字幕。          |
-| `-k, --keyword`   | 手动搜索关键字. 当 SubFinder 使用本身的关键字无法搜索到字幕时, 可以通过这个参数手动指定关键字.     | 否                                                 |
+| `-l, --languages` | 指定字幕语言，可同时指定多个。每个字幕查找器支持的语言不相同。具体支持的语言请看下文。             | 否，subsfinder 默认会下载字幕查找器找到的所有字幕。|
+| `-e, --exts`      | 指定字幕文件格式，可同时指定多个。每个字幕查找器支持的文件格式不相同。具体支持的文件格式请看下文。 | 否，subsfinder 默认会下载字幕查找器找到的所有字幕。|
+| `-m,--method`     | 指定字幕查找器，可同时指定多个。                                                                   | 否，subsfinder 默认使用 shooter 查找字幕。         |
+| `-k, --keyword`   | 手动搜索关键字. 当 SubsFinder 使用本身的关键字无法搜索到字幕时, 可以通过这个参数手动指定关键字.    | 否                                                 |
 | `--video_exts`    | 视频文件的后缀名（包括.，例如. mp4）                                                               | 否                                                 |
-| `--ignore`        | 忽略本地已有的字幕强行查找字幕. 注意: 这可能会覆盖本地已有的字幕. 默认 False。                     | 否                                                 |
+| `--ignore`        | 忽略本地已有的字幕强行查找字幕. 注意: 这可能会覆盖本地已有的字幕. 默认 True。                      | 否                                                 |
 | `--exclude`       | 排除文件或目录，支持类似于 shell 的文件匹配模式。详情见下文                                        | 否                                                 |
 | `--api_urls`      | 指定字幕搜索器的 API URL。详情见下文                                                               | 否                                                 |
-| `-c, --conf`      | 配置文件                                                                                           | 否，SubFinder 默认从~/.subfinder.json 读取。       |
+| `-c, --conf`      | 配置文件                                                                                           | 否，SubsFinder 默认从~/.subsfinder.json 读取。       |
 | `-s,--silence`    | 静默运行，不输出日志                                                                               | 否                                                 |
 | `--debug`         | 调试模式，输出调试日志                                                                             | 否                                                 |
 | `-h,--help`       | 显示帮助信息                                                                                       | 否                                                 |
@@ -217,49 +209,36 @@ Table of Contents
 
 使用命令行下载字幕还是有一点不方便，特别是需要输入路径。
 
-在 widnows 中，可以通过注册表将 subfinder 添加到右键菜单，使用时右键选中视频文件或者文件夹，然后点击右键菜单中的 “查找字幕”。
+在 widnows 中，可以通过注册表将 subsfinder 添加到右键菜单，使用时右键选中视频文件或者文件夹，然后点击右键菜单中的 “查找字幕”。
 
 ![win_menu](assets/subfinder_menu.win.gif)
 
 ** 如何添加注册表：**
 
-- 下载 [注册表文件](https://raw.githubusercontent.com/ausaki/subfinder/master/assets/subfinder.reg)，
+- 下载 [注册表文件](https://raw.githubusercontent.com/wflc/subfinder/master/assets/subsfinder.reg)，
 
-- 双击注册表文件 subfinder.reg 即可添加注册表到系统中。
+- 双击注册表文件 subsfinder.reg 即可添加注册表到系统中。
 
 ### macOS 右键菜单
 
 在 macOS 中，通过 Automator 的 Service 实现类似于 Windows 中的右键菜单功能。
 
-![subfinder_workflow_service.macos](assets/subfinder_workflow_service.macos.png)
+![subfinder_workflow_service.macos](assets/subsfinder_workflow_service.macos.png)
 
 使用方法：
 
-- [下载 workflow](https://raw.githubusercontent.com/ausaki/subfinder/master/assets/subfinder.workflow.tar.gz)。
-- 解压 subfinder.workflow.tar.gz。
-- 将解压出的 subfinder.workflow 复制到 / Users/YourName/Library/Services。
+- [下载 workflow](https://raw.githubusercontent.com/wflc/subfinder/master/assets/subsfinder.workflow.tar.gz)。
+- 解压 subsfinder.workflow.tar.gz。
+- 将解压出的 subsfinder.workflow 复制到 / Users/YourName/Library/Services。
 - 选中视频文件或目录，右键弹出菜单，选择 “服务（Services）” -> “查找字幕”。
 
-** 注意：在 workflow 中，subfinder 的路径是 `/usr/local/bin/subfinder`。**
+** 注意：在 workflow 中，subsfinder 的路径是 `/usr/local/bin/subsfinder`。**
 
 如果想要了解如何配置 workerflow，可以参考:
 
 - [macOS Automator 帮助](https://support.apple.com/zh-cn/guide/automator/welcome/mac)
 - [stackexchange 的这篇回答](https://apple.stackexchange.com/questions/238948/osx-how-to-add-a-right-click-option-in-folder-to-open-the-folder-with-an-applic?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa)
 
-## 图形界面
-
-打包好的可执行文件其实是一个 GUI app，不带任何参数运行的话，会打开一个图形界面。
-
-![subfinder_gui.win](assets/subfinder_gui.win.png)
-
-** 注意 **
-
-- GUI app 默认同时使用 shooter 和 zimuku 两个字幕搜索器。
-
-- GUI app 同样支持命令行参数。
-
-[下载页面](https://github.com/ausaki/subfinder/releases)
 
 ## 注意事项
 
@@ -270,13 +249,13 @@ Table of Contents
 
 ### zimuku 字幕搜索器
 
-- zimuku 网站明明有字幕可供下载，subfinder 却提示找不到字幕。可能的原因有：
+- zimuku 网站明明有字幕可供下载，subsfinder 却提示找不到字幕。可能的原因有：
 
   - zimuku 字幕搜索器从视频文件名中提取的关键词不够准确，导致搜索结果为空。
 
   - zimuku 网站修改了 HTML 代码，导致 HTML 解析失败。
 
-- 从 zimuku 网站上下载的字幕一般都是压缩包（zip, rar）。Python 自带的 zipfile 标准库可以解压 zip 压缩包，不过解压 rar 压缩包需要操作系统安装有 unrar 工具。由于 windows 系统安装和配置 unrar 比较麻烦，subfinder 已经內建 unrar.exe 了。对于 Linux 和 macOS 系统的用户，需要自己手动使用系统包管理工具安装 unrar。
+- 从 zimuku 网站上下载的字幕一般都是压缩包（zip, rar）。Python 自带的 zipfile 标准库可以解压 zip 压缩包，不过解压 rar 压缩包需要操作系统安装有 unrar 工具。由于 windows 系统安装和配置 unrar 比较麻烦，subsfinder 已经內建 unrar.exe 了。对于 Linux 和 macOS 系统的用户，需要自己手动使用系统包管理工具安装 unrar。
 
 ## 贡献
 
@@ -295,6 +274,14 @@ Table of Contents
 [MIT License](LICENSE)
 
 ## 更新历史
+
+### v2.1.0
+
+- SubsFinder 采用 [SubFinder](https://github.com/ausaki/subfinder)v2.0.1的代码修改而来.
+
+- SubsFinder 先采用文件名进行字幕搜索，如无搜索结果再采用关键字进行搜索，提高了搜索准确性.
+
+- SubsFinder 如果用多个搜索器搜索，会把每个搜索器找到的字幕都下载下来.
 
 ### v2.0.1
 
