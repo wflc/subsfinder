@@ -1,7 +1,7 @@
 .vscode/
 dist/
 build/
-SubFinder.egg-info/
+SubsFinder.egg-info/
 .eggs/
 .pytest_cache/
 .tox/

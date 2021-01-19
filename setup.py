@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import re
+import requests
 try:
     from setuptools import setup
 except ImportError:

@@ -4,7 +4,6 @@ subsfinder 是一个通用字幕查找器，可以查找字幕并下载。
 
 ---
 
-
 Table of Contents
 =================
 
@@ -16,7 +15,6 @@ Table of Contents
     - [配置文件](#配置文件)
     - [Windows 右键菜单](#windows-右键菜单)
     - [macOS 右键菜单](#macos-右键菜单)
-  - [图形界面](#图形界面)
   - [注意事项](#注意事项)
     - [shooter 字幕搜索器](#shooter-字幕搜索器)
     - [zimuku 字幕搜索器](#zimuku-字幕搜索器)
@@ -24,7 +22,7 @@ Table of Contents
   - [参考](#参考)
   - [License](#license)
   - [更新历史](#更新历史)
-	- [v2.1.0](#v210)
+    - [v2.1.0](#v210)
     - [v2.0.1](#v201)
     - [v2.0.0](#v200)
     - [v1.1.4](#v114)
@@ -105,7 +103,7 @@ Table of Contents
 | `--ignore`        | 忽略本地已有的字幕强行查找字幕. 注意: 这可能会覆盖本地已有的字幕. 默认 True。                      | 否                                                 |
 | `--exclude`       | 排除文件或目录，支持类似于 shell 的文件匹配模式。详情见下文                                        | 否                                                 |
 | `--api_urls`      | 指定字幕搜索器的 API URL。详情见下文                                                               | 否                                                 |
-| `-c, --conf`      | 配置文件                                                                                           | 否，SubsFinder 默认从~/.subsfinder.json 读取。       |
+| `-c, --conf`      | 配置文件                                                                                           | 否，SubsFinder 默认从~/.subsfinder.json 读取。     |
 | `-s,--silence`    | 静默运行，不输出日志                                                                               | 否                                                 |
 | `--debug`         | 调试模式，输出调试日志                                                                             | 否                                                 |
 | `-h,--help`       | 显示帮助信息                                                                                       | 否                                                 |
@@ -211,7 +209,7 @@ Table of Contents
 
 在 widnows 中，可以通过注册表将 subsfinder 添加到右键菜单，使用时右键选中视频文件或者文件夹，然后点击右键菜单中的 “查找字幕”。
 
-![win_menu](assets/subfinder_menu.win.gif)
+![win_menu](assets/subsfinder_menu.win.gif)
 
 ** 如何添加注册表：**
 
@@ -223,7 +221,7 @@ Table of Contents
 
 在 macOS 中，通过 Automator 的 Service 实现类似于 Windows 中的右键菜单功能。
 
-![subfinder_workflow_service.macos](assets/subsfinder_workflow_service.macos.png)
+![subsfinder_workflow_service.macos](assets/subsfinder_workflow_service.macos.png)
 
 使用方法：
 
