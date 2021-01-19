@@ -9,6 +9,7 @@ SubsFinder.egg-info/
 *.log
 *.sln
 *.pyproj
+*.user
 .vs/
 debug/
 video_test/

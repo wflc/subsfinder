@@ -22,7 +22,7 @@ Table of Contents
   - [参考](#参考)
   - [License](#license)
   - [更新历史](#更新历史)
-    - [v2.1.3](#v213)
+    - [v3.0.1](#v301)
 
 
 ---
@@ -258,7 +258,7 @@ Table of Contents
 
 ## 更新历史
 
-### v2.1.3
+### v3.0.1
 
 - SubsFinder 采用 [SubFinder](https://github.com/ausaki/subfinder)v2.0.1的代码修改而来.
 
