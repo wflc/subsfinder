@@ -7,5 +7,6 @@ SubsFinder.egg-info/
 .tox/
 *.py[co]
 *.log
+*.sln
 debug/
 video_test/
