@@ -137,7 +137,7 @@ class SubHDSubSearcher(HTMLSubSearcher):
                 ext = ext[1:]
                 if ext in self.exts:
                     files.append((sid, fname))
-        
+       
         for sid, fname in files:
             params = {'dasid': sid, 'dafname': fname}
             resp = self.session.post(api_url, data=params)
@@ -149,21 +149,27 @@ class SubHDSubSearcher(HTMLSubSearcher):
             filedata = data['filedata']
             origin_file = os.path.basename(fname)
             subname = self._gen_subname(origin_file)
+            osubname=subname
             subname = os.path.join(root, subname)
-            with open(subname, 'w') as fp:
+            findex=1
+            while os.path.exists(subname):
+                nsubname,nsubext=os.path.splitext(osubname)
+                subname = '{}({}).{}'.format(nsubname,findex,nsubext[1:])
+                subname = os.path.join(root, subname)
+                findex=findex+1
+            with open(subname, 'w',encoding='utf8') as fp:
                 fp.write(filedata)
             subs.append(subname)
-
         return subs
 
-    def _download_subtitle(self, subinfo):
-        subtitle_download_link = self._visit_detailpage( subinfo['link'])
+    def _download_subs(self,subinfo):
+        subtitle_download_link = self._visit_detailpage(subinfo['link'])
         self._debug('subtitle_download_link: {}'.format(subtitle_download_link))
         subs = None
         if not subtitle_download_link:
             subs = self._try_preview_subs(subinfo['link'])
         else:
-            filepath = self._download_subs(subtitle_download_link, subinfo['title'])
+            filepath = self._download_subtitle(subtitle_download_link, subinfo)
             self._debug('filepath: {}'.format(filepath))
             subs = self._extract(filepath)
         self._debug('subs: {}'.format(subs))

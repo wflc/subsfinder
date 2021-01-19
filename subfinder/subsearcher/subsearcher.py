@@ -274,13 +274,20 @@ class HTMLSubSearcher(BaseSubSearcher):
             if self.exts and ext not in self.exts:
                 continue
             subname = self._gen_subname(origin_file)
+            osubname=subname
             subpath = os.path.join(root, subname)
+            findex=1
+            while os.path.exists(subpath):
+                nsubname,nsubext=os.path.splitext(osubname)
+                subname = '{}({}).{}'.format(nsubname,findex,nsubext[1:])
+                subpath = os.path.join(root, subname)
+                findex=findex+1
             cf.extract(name, subpath)
             subs.append(subpath)
         cf.close()
         return subs
 
-    def _download_subtitle(self, download_link, subtitle):
+    def _download_subtitle(self, download_link, subinfo):
         """ 下载字幕
         videofile: 视频文件路径
         sub_title: 字幕标题（文件名）
@@ -308,11 +315,17 @@ class HTMLSubSearcher(BaseSubSearcher):
                 ext = ext[1:]
         if ext == '':
             # 尝试从字幕标题中获取文件后缀名
-            _, ext = os.path.splitext(subtitle)
+            _, ext = os.path.splitext(subinfo['title'])
             ext = ext[1:]
 
         filename = '{}.{}'.format(name, ext)
         filepath = os.path.join(root, filename)
+        findex=1
+        while os.path.exists(filepath):
+            filename = '{}({}).{}'.format(name,findex, ext)
+            filepath = os.path.join(root, filename)
+            findex =findex +1
+
         with open(filepath, 'wb') as fp:
             for chunk in res.iter_content(8192):
                 fp.write(chunk)
@@ -388,6 +401,7 @@ class HTMLSubSearcher(BaseSubSearcher):
                                              key=lambda item: (item['rate'], item['download_count']), reverse=True)
                 return sorted_subinfo_list[0]
 
+
     @abstractmethod
     def _get_subinfo_list(self, keyword):
         """ return subinfo_list of videoname
@@ -425,12 +439,14 @@ class HTMLSubSearcher(BaseSubSearcher):
         self.videoinfo = self._parse_videoname(self.videoname)
         if keyword is None:
             keywords = self._gen_keyword(self.videoinfo)
+            keywords.insert(0,self.videoname)
         else:
             keywords = [keyword]
         self.keywords = keywords
     
     def search_subs(self, videofile, languages=None, exts=None, keyword=None):
         self._prepare_search_subs(videofile, languages, exts, keyword)
+        print(self.keywords)
         self._debug('keywords: {}'.format(self.keywords))
         self._debug('videoinfo: {}'.format(self.videoinfo))
         subinfo = self._get_subinfo()
@@ -461,7 +477,7 @@ class HTMLSubSearcher(BaseSubSearcher):
         self._debug('downloadpage_link: {}'.format(downloadpage_link))
         subtitle_download_link = self._visit_downloadpage(downloadpage_link)
         self._debug('subtitle_download_link: {}'.format(subtitle_download_link))
-        filepath = self._download_subtitle(subtitle_download_link, subinfo['title'])
+        filepath = self._download_subtitle(subtitle_download_link, subinfo)
         self._debug('filepath: {}'.format(filepath))
         subs = self._extract(filepath)
         self._debug('subs: {}'.format(subs))

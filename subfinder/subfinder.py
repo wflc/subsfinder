@@ -107,8 +107,8 @@ class SubFinder(object):
         if self._is_videofile(path):
             if self._fnmatch(os.path.basename(path)):
                 return
-            if not self.ignore and self._has_subtitles(path):
-                return
+            #if not self.ignore and self._has_subtitles(path):
+            #    return
             yield path
             return
 
@@ -165,11 +165,10 @@ class SubFinder(object):
         """ 调用 SubSearcher 搜索并下载字幕
         """
         basename = os.path.basename(videofile)
-
         subinfos = []
         for subsearcher_cls in self.subsearcher:
             subsearcher = subsearcher_cls(self, api_urls=self.api_urls)
-            self.logger.info('{0}：开始使用 {1} 搜索字幕'.format(basename, subsearcher))
+            self.logger.info('开始使用 {0} 搜索字幕'.format( subsearcher))
             try:
                 subinfos = subsearcher.search_subs(videofile, self.languages, self.exts, self.keyword)
             except Exception as e:
@@ -178,28 +177,34 @@ class SubFinder(object):
                     err = traceback.format_exc()
                 self.logger.error( '{}：搜索字幕发生错误： {}'.format(basename, err))
                 continue
-            if subinfos:
-                break
-        self.logger.info('{1}：找到 {0} 个字幕, 准备下载'.format( len(subinfos), basename))
-        try:
-            for subinfo in subinfos:
-                downloaded = subinfo.get('downloaded', False)
-                if downloaded:
-                    if isinstance(subinfo['subname'], (list, tuple)):
-                        self._history[videofile].extend(subinfo['subname'])
+            #if subinfos:
+            #    break
+            self.logger.info('找到 {0} 个字幕, 准备下载'.format( len(subinfos)))
+            try:
+                for subinfo in subinfos:
+                    downloaded = subinfo.get('downloaded', False)
+                    if downloaded:
+                        if isinstance(subinfo['subname'], (list, tuple)):
+                            self._history[videofile].extend(subinfo['subname'])
+                        else:
+                            self._history[videofile].append(subinfo['subname'])
                     else:
-                        self._history[videofile].append(subinfo['subname'])
-                else:
-                    link = subinfo.get('link')
-                    subname = subinfo.get('subname')
-                    subpath = os.path.join(os.path.dirname(videofile), subname)
-                    res = self.session.get(link, stream=True)
-                    with open(subpath, 'wb') as fp:
-                        for chunk in res.iter_content(8192):
-                            fp.write(chunk)
-                    self._history[videofile].append(subpath)
-        except Exception as e:
-            self.logger.error(str(e))
+                        link = subinfo.get('link')
+                        subname = subinfo.get('subname')
+                        subpath = os.path.join(os.path.dirname(videofile), subname)
+                        findex=1
+                        while os.path.exists(subpath):
+                            nsubname,nsubext=os.path.splitext(subinfo.get('subname'))
+                            subname = '{}({}).{}'.format(nsubname,findex,nsubext[1:])
+                            subpath = os.path.join(os.path.dirname(videofile), subname)
+                            findex=findex+1
+                        res = self.session.get(link, stream=True)
+                        with open(subpath, 'wb') as fp:
+                            for chunk in res.iter_content(8192):
+                                fp.write(chunk)
+                        self._history[videofile].append(subpath)
+            except Exception as e:
+                self.logger.error(str(e))
 
     def set_path(self, path):
         path = os.path.abspath(path)

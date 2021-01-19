@@ -11,7 +11,7 @@ class ShooterSubSearcher(BaseSubSearcher):
     """
     shortname = 'shooter'
     API_URL = 'https://www.shooter.cn/api/subapi.php'
-    SUPPORT_LANGUAGES = ['zh', 'en']
+    SUPPORT_LANGUAGES = ['zh', 'en','']
     SUPPORT_EXTS = ['ass', 'srt']
 
     SHOOTER_LANGUAGES_MAP = {
@@ -32,6 +32,7 @@ class ShooterSubSearcher(BaseSubSearcher):
         self._check_exts(exts)
         filehash = self._compute_video_hash(videofile)
         root, basename = os.path.split(videofile)
+        print(basename)
         payload = {'filehash': filehash,
                    'pathinfo': basename,
                    'format': 'json',
@@ -76,10 +77,15 @@ class ShooterSubSearcher(BaseSubSearcher):
         """
         root, basename = os.path.split(videofile)
         name, _ = os.path.splitext(basename)
-        subname = '{basename}.{language}.{ext}'.format(
-            basename=name,
-            language=language,
-            ext=ext)
+        if language:
+            subname = '{basename}.{language}.{ext}'.format(
+                basename=name,
+                language=language,
+                ext=ext)
+        else:
+            subname = '{basename}.{ext}'.format(
+                basename=name,
+                ext=ext)
         return subname
 
     @staticmethod
