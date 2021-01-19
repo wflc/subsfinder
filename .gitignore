@@ -8,5 +8,7 @@ SubsFinder.egg-info/
 *.py[co]
 *.log
 *.sln
+*.pyproj
+.vs/
 debug/
 video_test/
