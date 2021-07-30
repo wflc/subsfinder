@@ -3,16 +3,18 @@
 """
 
 from __future__ import unicode_literals
-from .subsfinder import SubFinder
+from .subsfinder import SubsFinder
 try:
     from queue import Queue
 except ImportError as e:
     from Queue import Queue
 from threading import Thread, Lock
 
+
 class Pool(object):
     """ 线程池
     """
+
     def __init__(self, size):
         self.size = size
         self.queue = Queue(maxsize=size)
@@ -25,7 +27,7 @@ class Pool(object):
 
     def _release(self):
         self._lock.release()
-    
+
     def start_threads(self):
         for t in self.threads:
             t.daemon = True
@@ -39,13 +41,14 @@ class Pool(object):
 
     def spawn(self, fn, *args, **kwargs):
         self.queue.put((fn, args, kwargs))
-        
+
     def join(self):
         self.queue.join()
 
-class SubFinderThread(SubFinder):
-    """ SubFinder Thread version
+
+class SubFinderThread(SubsFinder):
+    """ SubsFinder Thread version
     """
+
     def _init_pool(self):
         self.pool = Pool(10)
-

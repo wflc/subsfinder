@@ -26,7 +26,7 @@ class Pool(object):
         return
 
 
-class SubFinder(object):
+class SubsFinder(object):
     """ 字幕查找器
     """
 
@@ -81,20 +81,6 @@ class SubFinder(object):
                 return True
         return False
 
-    def _has_subtitles(self, f):
-        """ 判断f是否已经有了本地字幕
-        """
-        dirname = os.path.dirname(f)
-        basename = os.path.basename(f)
-        basename_no_ext, _ = os.path.splitext(basename)
-        exts = self.exts or ['ass', 'srt']
-        for filename in os.listdir(dirname):
-            _, ext = os.path.splitext(filename)
-            ext = ext[1:]
-            if filename.startswith(basename_no_ext) and ext in exts:
-                return True
-        return False
-
     def _fnmatch(self, f):
         for pattern in self.exclude:
             if fnmatch.fnmatchcase(f, pattern):
@@ -106,8 +92,6 @@ class SubFinder(object):
         """
         if self._is_videofile(path):
             if self._fnmatch(os.path.basename(path)):
-                return
-            if not self.ignore and self._has_subtitles(path):
                 return
             yield path
             return
@@ -121,8 +105,6 @@ class SubFinder(object):
                 if not self._is_videofile(filepath):
                     continue
                 if self._fnmatch(filename):
-                    continue
-                if not self.ignore and self._has_subtitles(filepath):
                     continue
                 yield filepath
 
@@ -151,7 +133,7 @@ class SubFinder(object):
             log_level = logging.CRITICAL + 1
         if self.debug:
             log_level = logging.DEBUG
-        self.logger = logging.getLogger('SubFinder')
+        self.logger = logging.getLogger('SubsFinder')
         self.logger.handlers = []
         self.logger.setLevel(log_level)
         sh = logging.StreamHandler(stream=self.logger_output)
@@ -168,18 +150,22 @@ class SubFinder(object):
         subinfos = []
         for subsearcher_cls in self.subsearcher:
             subsearcher = subsearcher_cls(self, api_urls=self.api_urls)
-            self.logger.info('开始使用 {0} 搜索字幕'.format( subsearcher))
+            self.logger.info('--------------开始使用 {0} 搜索字幕--------------'.format(subsearcher))
             try:
                 subinfos = subsearcher.search_subs(videofile, self.languages, self.exts, self.keyword)
             except Exception as e:
                 err = str(e)
                 if self.debug:
                     err = traceback.format_exc()
-                self.logger.error( '{}：搜索字幕发生错误： {}'.format(basename, err))
+                self.logger.error('{}：搜索字幕发生错误： {}'.format(basename, err))
                 continue
-            #if subinfos:
+            # if subinfos:
             #    break
-            self.logger.info('找到 {0} 个字幕, 准备下载'.format( len(subinfos)))
+            if len(subinfos) > 0:
+                self.logger.info('--------------找到 {0} 个字幕, 准备下载--------------'.format(len(subinfos)))
+            else:
+                self.logger.info('--------------没有找到字幕--------------')
+
             try:
                 for subinfo in subinfos:
                     downloaded = subinfo.get('downloaded', False)
@@ -192,12 +178,12 @@ class SubFinder(object):
                         link = subinfo.get('link')
                         subname = subinfo.get('subname')
                         subpath = os.path.join(os.path.dirname(videofile), subname)
-                        findex=1
+                        findex = 1
                         while os.path.exists(subpath):
-                            nsubname,nsubext=os.path.splitext(subinfo.get('subname'))
-                            subname = '{}({}).{}'.format(nsubname,findex,nsubext[1:])
+                            nsubname, nsubext = os.path.splitext(subinfo.get('subname'))
+                            subname = '{}({}).{}'.format(nsubname, findex, nsubext[1:])
                             subpath = os.path.join(os.path.dirname(videofile), subname)
-                            findex=findex+1
+                            findex = findex+1
                         res = self.session.get(link, stream=True)
                         with open(subpath, 'wb') as fp:
                             for chunk in res.iter_content(8192):
@@ -211,13 +197,14 @@ class SubFinder(object):
         self.path = path
 
     def start(self):
-        """ SubFinder 入口，开始函数
+        """ SubsFinder 入口，开始函数
         """
         self.logger.info('开始')
         videofiles = list(self._filter_path(self.path))
         l = len(videofiles)
         if l > 1 and self.keyword:
-            self.logger.warn('`keyword` should used only when there is one video file, but there is {} video files'.format(l))
+            self.logger.warn(
+                '`keyword` should used only when there is one video file, but there is {} video files'.format(l))
             return
         for f in videofiles:
             self._history[f] = []

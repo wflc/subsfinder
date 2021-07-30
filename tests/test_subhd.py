@@ -2,14 +2,14 @@
 from __future__ import unicode_literals, print_function
 import pytest
 import pathlib
-from subfinder.subsearcher import SubHDSubSearcher
-from subfinder.subfinder import SubFinder
-from subfinder.subsearcher.exceptions import LanguageError, ExtError
+from subsfinder.subsearcher import SubHDSubSearcher
+from subsfinder.subsfinder import SubsFinder
+from subsfinder.subsearcher.exceptions import LanguageError, ExtError
 
 
 @pytest.fixture(scope='module')
 def subhd():
-    s = SubFinder()
+    s = SubsFinder()
     z = SubHDSubSearcher(s)
     return z
 
@@ -25,8 +25,9 @@ def test_exts(subhd):
     with pytest.raises(ExtError):
         subhd._check_exts(['fage_ext'])
 
+
 def test_parse(videofile: pathlib.Path):
-    subhd: SubHDSubSearcher = SubHDSubSearcher(SubFinder())
+    subhd: SubHDSubSearcher = SubHDSubSearcher(SubsFinder())
     subhd._prepare_search_subs(videofile)
     subinfo_list = subhd._get_subinfo_list(subhd.keywords[0])
     assert subinfo_list

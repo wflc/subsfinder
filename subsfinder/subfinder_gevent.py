@@ -4,11 +4,12 @@
 
 from __future__ import unicode_literals
 from gevent.pool import Pool
-from .subsfinder import SubFinder
+from .subsfinder import SubsFinder
 
-class SubFinderGevent(SubFinder):
+
+class SubFinderGevent(SubsFinder):
     """ SubsFinder Thread version
     """
+
     def _init_pool(self):
         self.pool = Pool(10)
-

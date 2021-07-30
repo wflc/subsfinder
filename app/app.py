@@ -11,9 +11,9 @@ except ImportError as e:
     from Queue import Queue, Empty
 from threading import Thread
 import os
-from subfinder.subfinder_thread import SubFinderThread as SubFinder
-from subfinder.subsearcher import get_subsearcher
-from subfinder.run_thread import run
+from subsfinder.subfinder_thread import SubFinderThread as SubsFinder
+from subsfinder.subsearcher import get_subsearcher
+from subsfinder.run_thread import run
 
 
 class OutputStream():
@@ -54,7 +54,7 @@ class Application(tk.Frame, object):
 
     def __init__(self, master=None, cnf={}, **kw):
         super(Application, self).__init__(master, cnf, **kw)
-        self.title = 'SubFinder'
+        self.title = 'SubsFinder'
         self.videofile = ''
         self._output = None
 
@@ -70,14 +70,14 @@ class Application(tk.Frame, object):
             return
 
         def start(*args, **kwargs):
-            subfinder = SubFinder(*args, **kwargs)
-            subfinder.start()
-            subfinder.done()
+            subsfinder = SubsFinder(*args, **kwargs)
+            subsfinder.start()
+            subsfinder.done()
 
         subsearchers = [
-            get_subsearcher('shooter'), 
+            get_subsearcher('shooter'),
             get_subsearcher('zimuku'),
-            get_subsearcher('zimuzu')
+            get_subsearcher('subhd')
         ]
         t = Thread(target=start, args=[self.videofile, ], kwargs=dict(
             logger_output=self._output, subsearcher_class=subsearchers))

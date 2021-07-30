@@ -22,6 +22,7 @@ Table of Contents
   - [参考](#参考)
   - [License](#license)
   - [更新历史](#更新历史)
+    - [v3.0.3](#v303)
     - [v3.0.1](#v301)
 
 
@@ -31,7 +32,7 @@ Table of Contents
 
 - 支持提供的 API，可以精确匹配字幕。
 
-- 支持 [射手字幕网](https://www.shooter.cn/), [字幕库](https://www.zimuku.cn/), [字幕组](http://www.zimuzu.io/), [SubHD](https://subhd.tv)。
+- 支持 [射手字幕网](https://www.shooter.cn/), [字幕库](https://www.zimuku.cn/), [SubHD](https://subhd.tv)。
 
 ## 安装
 
@@ -56,11 +57,11 @@ Table of Contents
 
 ### 命令行
 
-- 使用所有字幕查找器（shooter、zimuku、zimuzu、subhd）查找单个视频的字幕：
+- 使用所有字幕查找器（shooter、zimuku、subhd）查找单个视频的字幕：
 
   `subsfinder /path/to/videofile`
 
-- 使用所有字幕查找器（shooter、zimuku、zimuzu、subhd）查找目录下（递归所有子目录）所有视频的字幕：
+- 使用所有字幕查找器（shooter、zimuku、subhd）查找目录下（递归所有子目录）所有视频的字幕：
 
   `subsfinder /path/to/directory_contains_video`
 
@@ -110,8 +111,6 @@ Table of Contents
 
   - 字幕库的 API 一般形如 http://www.zimuku.la/search， 这个 URL 就是网页端 “搜索” 功能的 URL。
 
-  - 字幕组的 API 一般形如 http://www.zmz2019.com/search， 这个 URL 同样是网页端 “搜索” 功能的 URL。
-
   - SubHD 的 API 一般形如 https://subhd.tv/search. 
 
   - 射手网的 API 比较稳定，一般不会变动。
@@ -125,8 +124,6 @@ Table of Contents
     // 设置字幕库的搜索 API
     "zimuku": "http://www.zimuku.la/search",
     // 设置字幕组的搜索 API
-    "zimuzu": "http://www.zmz2019.com/search",
-    // 设置字幕组获取字幕下载链接的 API, 注意不包含域名
     "zimuzu_api_subtitle_download": "/api/v1/static/subtitle/detail",
     // 设置 SubHD 的搜索 API
     "subhd": "https://subhd.tv/search",
@@ -143,7 +140,6 @@ Table of Contents
 | ---------- | ----------------------------------- | -------------- |
 | shooter    | ['zh', 'en']                        | ['ass', 'srt'] |
 | zimuku     | ['zh_chs', 'zh_cht', 'en', 'zh_en'] | ['ass', 'srt'] |
-| zimuzu     | ['zh_chs', 'zh_cht', 'en', 'zh_en'] | ['ass', 'srt'] |
 | subhd      | ['zh_chs', 'zh_cht', 'en', 'zh_en'] | ['ass', 'srt'] |
 
 语言代码：
@@ -174,10 +170,6 @@ Table of Contents
   "api_urls": {
     // 设置字幕库的搜索 API
     "zimuku": "http://www.zimuku.la/search",
-    // 设置字幕组的搜索 API
-    "zimuzu": "http://www.zmz2019.com/search",
-    // 设置字幕组获取字幕下载链接的 API, 注意不包含域名
-    "zimuzu_api_subtitle_download": "/api/v1/static/subtitle/detail",
     // 设置 SubHD 的搜索 API
     "subhd": "https://subhd.tv/search",
     // 设置 SubHD 获取字幕下载链接的 API, 注意不包含域名
@@ -198,7 +190,7 @@ Table of Contents
 
 ** 如何添加注册表：**
 
-- 下载 [注册表文件](https://raw.githubusercontent.com/wflc/subfinder/master/assets/subsfinder.reg)，
+- 下载 [注册表文件](https://raw.githubusercontent.com/wflc/subsfinder/master/assets/subsfinder.reg)，
 
 - 双击注册表文件 subsfinder.reg 即可添加注册表到系统中。
 
@@ -210,8 +202,8 @@ Table of Contents
 
 使用方法：
 
-- [下载 workflow](https://raw.githubusercontent.com/wflc/subfinder/master/assets/subsfinder.workflow.tar.gz)。
-- 解压 subsfinder.workflow.tar.gz。
+- [下载 workflow](https://raw.githubusercontent.com/wflc/subsfinder/master/assets/subsfinder.workflow.zip)。
+- 解压 subsfinder.workflow.zip。
 - 将解压出的 subsfinder.workflow 复制到 / Users/YourName/Library/Services。
 - 选中视频文件或目录，右键弹出菜单，选择 “服务（Services）” -> “查找字幕”。
 
@@ -257,6 +249,11 @@ Table of Contents
 [MIT License](LICENSE)
 
 ## 更新历史
+
+### v3.0.3
+
+- 删除字幕组查找
+- 修复字幕库有时找不到字幕的问题
 
 ### v3.0.1
 

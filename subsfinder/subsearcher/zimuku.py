@@ -12,7 +12,7 @@ class ZimukuSubSearcher(HTMLSubSearcher):
     SUPPORT_LANGUAGES = ['zh_chs', 'zh_cht', 'en', 'zh_en']
     SUPPORT_EXTS = ['ass', 'srt']
 
-    API_URL = 'http://www.zimuku.la/search/'
+    API_URL = 'http://zmk.pw/search/'
 
     MAX_RETRY_COUNT = 5
 

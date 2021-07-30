@@ -5,17 +5,17 @@ from __future__ import unicode_literals, print_function
 import os
 import pathlib
 from re import sub
-from tests.test_subfinder import videofile
-import subfinder
+from tests.test_subsfinder import videofile
+import subsfinder
 import pytest
-from subfinder.subsearcher import ZimukuSubSearcher
-from subfinder.subfinder import SubFinder
-from subfinder.subsearcher.exceptions import LanguageError, ExtError
+from subsfinder.subsearcher import ZimukuSubSearcher
+from subsfinder.subsfinder import SubsFinder
+from subsfinder.subsearcher.exceptions import LanguageError, ExtError
 
 
 @pytest.fixture(scope='module')
 def zimuku():
-    s = SubFinder()
+    s = SubsFinder()
     z = ZimukuSubSearcher(s)
     return z
 
@@ -45,7 +45,7 @@ def test_parse_download_count(zimuku):
         assert c == count
 
 def test_parse(videofile: pathlib.Path):
-    zimuku: ZimukuSubSearcher = ZimukuSubSearcher(SubFinder())
+    zimuku: ZimukuSubSearcher = ZimukuSubSearcher(SubsFinder())
     zimuku._prepare_search_subs(videofile)
     subinfo_list = zimuku._get_subinfo_list(zimuku.keywords[0])
     assert subinfo_list

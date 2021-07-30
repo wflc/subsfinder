@@ -44,7 +44,7 @@ setup(
     description='subsfinder -- a general finder for subtitles',
     long_description=readme(),
     long_description_content_type='text/markdown',
-    url='https://github.com/wflc/subfinder/',
+    url='https://github.com/wflc/subsfinder/',
     keywords=['subtitle', 'subsfinder', 'sub', 'subtitle finder', 'shooter', 'zimuku'],
     license='MIT',
     packages=['subsfinder', 'subsfinder.subsearcher', 'subsfinder.tools'],

@@ -3,9 +3,9 @@
 from __future__ import unicode_literals, print_function
 import os
 import pytest
-from subfinder.subfinder import SubFinder
-from subfinder.subsearcher import BaseSubSearcher, HTMLSubSearcher
-from subfinder.subsearcher.exceptions import LanguageError, ExtError
+from subsfinder.subsfinder import SubsFinder
+from subsfinder.subsearcher import BaseSubSearcher, HTMLSubSearcher
+from subsfinder.subsearcher.exceptions import LanguageError, ExtError
 
 
 def test_languages():
@@ -66,8 +66,8 @@ def test_gen_subname():
     vidoefile = 'test.mkv'
     language = 'zh'
     ext = 'srt'
-    subfinder = SubFinder()
-    s = HTMLSubSearcher(subfinder)
+    subsfinder = SubsFinder()
+    s = HTMLSubSearcher(subsfinder)
     s._prepare_search_subs(vidoefile)
     origin_file = 'origin_file.简体&英文.ass'
     subname =  s._gen_subname(origin_file)

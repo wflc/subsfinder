@@ -9,14 +9,14 @@ import argparse
 import six
 import json
 from .subsearcher import get_subsearcher, get_all_subsearchers, BaseSubSearcher
-from .subsfinder import SubFinder
+from .subsfinder import SubsFinder
 from . import __version__
 
 
 def find_method(m):
     s = get_subsearcher(m)
     if s is None:
-        raise argparse.ArgumentTypeError( 'Cant found SubSearcher named {}'.format(m))
+        raise argparse.ArgumentTypeError('Cant found SubSearcher named {}'.format(m))
     return s
 
 
@@ -121,15 +121,15 @@ def run(subfinder_class):
         conf_dict[opt] = val
 
     root = conf_dict.pop('path')
-    subfinder = subfinder_class(path=root,
-                                subsearcher_class=conf_dict['method'] if 'method' in conf_dict else None,
-                                **conf_dict)
-    subfinder.start()
-    subfinder.done()
+    subsfinder = subfinder_class(path=root,
+                                 subsearcher_class=conf_dict['method'] if 'method' in conf_dict else None,
+                                 **conf_dict)
+    subsfinder.start()
+    subsfinder.done()
 
     if args.pause:
         time.sleep(5)
 
 
 if __name__ == '__main__':
-    run(SubFinder)
+    run(SubsFinder)

@@ -274,14 +274,14 @@ class HTMLSubSearcher(BaseSubSearcher):
             if self.exts and ext not in self.exts:
                 continue
             subname = self._gen_subname(origin_file)
-            osubname=subname
+            osubname = subname
             subpath = os.path.join(root, subname)
-            findex=1
+            findex = 1
             while os.path.exists(subpath):
-                nsubname,nsubext=os.path.splitext(osubname)
-                subname = '{}({}).{}'.format(nsubname,findex,nsubext[1:])
+                nsubname, nsubext = os.path.splitext(osubname)
+                subname = '{}({}).{}'.format(nsubname, findex, nsubext[1:])
                 subpath = os.path.join(root, subname)
-                findex=findex+1
+                findex = findex+1
             cf.extract(name, subpath)
             subs.append(subpath)
         cf.close()
@@ -320,11 +320,11 @@ class HTMLSubSearcher(BaseSubSearcher):
 
         filename = '{}.{}'.format(name, ext)
         filepath = os.path.join(root, filename)
-        findex=1
+        findex = 1
         while os.path.exists(filepath):
-            filename = '{}({}).{}'.format(name,findex, ext)
+            filename = '{}.{}.{}'.format(name, findex, ext)
             filepath = os.path.join(root, filename)
-            findex =findex +1
+            findex = findex + 1
 
         with open(filepath, 'wb') as fp:
             for chunk in res.iter_content(8192):
@@ -401,7 +401,6 @@ class HTMLSubSearcher(BaseSubSearcher):
                                              key=lambda item: (item['rate'], item['download_count']), reverse=True)
                 return sorted_subinfo_list[0]
 
-
     @abstractmethod
     def _get_subinfo_list(self, keyword):
         """ return subinfo_list of videoname
@@ -439,11 +438,11 @@ class HTMLSubSearcher(BaseSubSearcher):
         self.videoinfo = self._parse_videoname(self.videoname)
         if keyword is None:
             keywords = self._gen_keyword(self.videoinfo)
-            keywords.insert(0,self.videoname)
+            keywords.insert(0, self.videoname)
         else:
             keywords = [keyword]
         self.keywords = keywords
-    
+
     def search_subs(self, videofile, languages=None, exts=None, keyword=None):
         self._prepare_search_subs(videofile, languages, exts, keyword)
         print(self.keywords)
