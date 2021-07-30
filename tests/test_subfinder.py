@@ -6,9 +6,9 @@ import pytest
 import pathlib
 import re
 import subprocess
-from subfinder.subfinder import SubFinder
-from subfinder.subsearcher import get_subsearcher
-from subfinder.utils import rm_subtitles
+from subsfinder.subsfinder import SubsFinder
+from subsfinder.subsearcher import get_subsearcher
+from subsfinder.utils import rm_subtitles
 
 test_dir = '~/Downloads/subfinder_test/'
 
@@ -18,7 +18,7 @@ def test_search_subs_by_shooter():
     if not os.path.exists(directory):
         pytest.skip('test directory not exists')
     rm_subtitles(directory)
-    subfinder = SubFinder(path=directory, subsearcher_class=get_subsearcher('shooter'), debug=True)
+    subfinder = SubsFinder(path=directory, subsearcher_class=get_subsearcher('shooter'), debug=True)
     subfinder.start()
     files = [f for f in os.listdir(directory) if f.endswith('.ass') or f.endswith('.srt')]
     assert len(files) >= 0
@@ -38,8 +38,6 @@ def conf_file(tmp_path_factory: pathlib.Path) -> pathlib.Path:
         "method": ["zimuku", "zimuzu", "subhd"],
         "api_urls": {
             "zimuku": "http://www.zimuku.la/search/",
-            "zimuzu": "http://www.rrys2020.com/search/index/",
-            "zimuzu_api_subtitle_download": "/api/v1/static/subtitle/detail",
             "subhd": "https://subhd.tv/search/",
             "subhd_api_subtitle_download": "/ajax/down_ajax/",
             "subhd_api_subtitle_preview": "/ajax/file_ajax/"
@@ -77,7 +75,7 @@ def test_search_subs_by_subhd(videofile: pathlib.Path):
     parent = videofile.parent
     rm_subtitles(parent)
     sc = get_subsearcher('subhd')
-    subfinder = SubFinder(path=videofile, subsearcher_class=sc, debug=True)
+    subfinder = SubsFinder(path=videofile, subsearcher_class=sc, debug=True)
     subfinder.start()
     exts = sc.SUPPORT_EXTS
     files = [f for f in parent.iterdir() if f.suffix[1:] in exts]
@@ -100,14 +98,14 @@ def check_cmd_output(cmd):
 def test_run_from_cmd(videofile: pathlib.Path):
     parent = videofile.parent
     rm_subtitles(parent)
-    cmd = 'subfinder {} -m zimuku zimuzu subhd'.format(videofile)
+    cmd = 'subsfinder {} -m zimuku subhd'.format(videofile)
     n = check_cmd_output(cmd)
     assert n > 0
 
 def test_cmd_option_exclude(videofile: pathlib.Path):
     parent = videofile.parent
     rm_subtitles(parent)
-    cmd = 'subfinder {} -m zimuku -x Yellowstone*.mkv'.format(videofile)
+    cmd = 'subsfinder {} -m zimuku -x Yellowstone*.mkv'.format(videofile)
     n = check_cmd_output(cmd)
     assert n == 0
 
@@ -117,7 +115,7 @@ def test_cmd_option_ignore(videofile: pathlib.Path):
     rm_subtitles(parent)
     subtitle = videofile.with_suffix('.ass')
     subtitle.touch()
-    cmd = 'subfinder {} -m zimuku --ignore'.format(videofile)
+    cmd = 'subsfinder {} -m zimuku --ignore'.format(videofile)
     n = check_cmd_output(cmd)
     assert n > 0
 
@@ -133,7 +131,7 @@ def test_cmd_option_conf_and_api_urls(videofile, conf_file: pathlib.Path):
 def test_cmd_option_video_exts(tmp_path: pathlib.Path):
     videofile = tmp_path / 'Yellowstone.2018.S03E04.1080p.WEB.H264-METCON.fake_ext'
     videofile.touch()
-    cmd = 'subfinder {} --video_exts {} -m zimuku'.format(videofile, '.fake_ext')
+    cmd = 'subsfinder {} --video_exts {} -m zimuku'.format(videofile, '.fake_ext')
     n = check_cmd_output(cmd)
     assert n > 0
 
@@ -141,7 +139,7 @@ def test_cmd_option_video_exts(tmp_path: pathlib.Path):
 def test_cmd_option_keyword(videofile: pathlib.Path):
     parent = videofile.parent
     rm_subtitles(parent)
-    cmd = 'subfinder {} -m zimuku -k Yellowstone.2018.S03E04'.format(videofile)
+    cmd = 'subsfinder {} -m zimuku -k Yellowstone.2018.S03E04'.format(videofile)
     n = check_cmd_output(cmd)
     assert n > 0
 
@@ -149,7 +147,7 @@ def test_cmd_option_keyword(videofile: pathlib.Path):
 def test_cmd_option_languages(videofile: pathlib.Path):
     parent = videofile.parent
     rm_subtitles(parent)
-    cmd = 'subfinder {} -m zimuku -l zh_chs'.format(videofile)
+    cmd = 'subsfinder {} -m zimuku -l zh_chs'.format(videofile)
     n = check_cmd_output(cmd)
     assert n > 0
 
@@ -157,6 +155,6 @@ def test_cmd_option_languages(videofile: pathlib.Path):
 def test_cmd_option_exts(videofile: pathlib.Path):
     parent = videofile.parent
     rm_subtitles(parent)
-    cmd = 'subfinder {} -m zimuku -e ass --debug'.format(videofile)
+    cmd = 'subsfinder {} -m zimuku -e ass --debug'.format(videofile)
     n = check_cmd_output(cmd)
     assert n > 0
